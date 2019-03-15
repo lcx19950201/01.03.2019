@@ -1,0 +1,59 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+struct Human
+{
+	char name[20];
+	short age;
+	float zp;
+};
+
+Human *vvod(const char *FileName, int &count)
+{
+	Human *H = NULL;
+	int count = 0;
+	fstream fin = fstream(FileName, ios::in);
+	if (fin.good())
+	{
+		fin >> count;
+		H = new Human[count];
+		for (int i = 0; i < count; i++)
+			fin >> H[i].name >> H[i].age >> H[i].zp;
+		fin.close();
+	}
+	return H;
+}
+
+int main()
+{
+	Human *H = NULL;
+	int count = 0;
+
+	char FileName[] = "input.txt";
+	fstream fin = fstream(FileName, ios::in);
+	if (fin.good())
+	{
+		fin >> count;
+		H = new Human[count];
+		for (int i = 0; i < count; i++)
+			fin >> H[i].name >> H[i].age >>  H[i].zp;
+		fin.close();
+	}
+
+	char FileBinName[] = "input.bin";
+	fstream fout = fstream(FileBinName, ios::out | ios::binary);
+	if (H != NULL)
+	{
+		if (fout.good())
+		{
+			fout.write((char *)&count, sizeof(count));
+			fout.write((char*)H, sizeof(*H) * count);
+			fout.close();
+		}
+		delete H;
+		H = NULL;
+	}
+	//for (int i = 0; i < count; i++)
+		//cout << H[i].name << " " << H[i].age << " " << H[i].zp << endl;
+	return 0;
+}
