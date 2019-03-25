@@ -1,0 +1,73 @@
+#include <string>
+#include <fstream>
+#include <iostream>
+using namespace std;
+const int nameSize = 50;
+int i;
+struct donate {
+	int number;
+	string name;
+	string day;
+	string month;
+	string year;
+	float money;
+
+};
+struct tm {
+	int day;
+	int month;
+	int year;
+
+};
+int main()
+{
+	int day, month, year;
+	char filename[20];
+	ifstream inFile;
+	cout << "Enter name of data file: ";
+	cin.getline(filename, 20);
+	inFile.open(filename);
+	if (!inFile.is_open())
+	{
+		cout << "Could not open the file " << filename << endl;
+		cout << "Program terminating.\n";
+		exit(EXIT_FAILURE);
+	}
+	int num = 0;
+	inFile >> num;
+	inFile.get();
+	string t1;
+	inFile >> t1;
+	inFile.get();
+	string t2;
+	inFile >> t2;
+	inFile.get();
+	donate *dd = new donate[num];
+	for (int i = 0; i < num; i++)
+	{
+		inFile >> dd[i].number;
+		inFile>>dd[i].name;
+		inFile>>dd[i].day;
+		inFile >> dd[i].month;
+		inFile >> dd[i].year;
+		inFile >> dd[i].money;
+		inFile.get();
+	}
+	if (inFile.eof())
+	{
+		cout << "End of file reached.\n";
+	}
+	else if (inFile.fail())
+		cout << "Input terminated by data mismatch.\n";
+	else
+		cout << "Input terminated for unknown reason.\n";
+	inFile.close();
+
+	cout << dd[i].number << endl;
+	cout << dd[i].name << endl;
+	cout << dd[i].year << endl;
+	cout << dd[i].money<< endl;
+	system("pause");
+	return 0;
+
+}
